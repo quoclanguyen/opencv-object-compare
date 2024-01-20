@@ -1,11 +1,12 @@
 # import the opencv library 
 import cv2 
-vid = cv2.VideoCapture(1) 
+
 def capture():
     # define a video capture object 
+    vid = cv2.VideoCapture(0) 
 
     while(True):
-        ret, image = vid.read()
+        _, image = vid.read()
             # showing result, it take frame name and image   
         cv2.imshow("sample_image", image)
         if cv2.waitKey(1) & 0xFF == ord(' '):
@@ -20,12 +21,13 @@ def capture():
 
 def compare():
     # read gray scale image
+    vid = cv2.VideoCapture(0) 
     image_gray = cv2.imread("sample_image.png", 0)
     while(True): 
 
     # Capture the video frame 
     # by frame 
-        ret, frame = vid.read() 
+        _, frame = vid.read() 
         frame_gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
         #compare image
         compare = image_gray == frame_gray

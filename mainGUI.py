@@ -1,5 +1,11 @@
 import tkinter as tk 
 import videoHandler
+import threading as tr
+
+root = tk.Tk()
+root.title("Image Processing")
+root.geometry("1600x300")
+
 #CAMERA gui
 class CameraGUI(tk.Frame):
     def __init__(self, master=None):
@@ -33,9 +39,16 @@ class HistogramGUI(tk.Frame):
     def say_hi(self):
         print("hi there, everyone!")
 #MAIN
-root = tk.Tk()
-root.title("Image Processing")
-root.geometry("1600x300")
-app = CameraGUI(master=root)
-app = HistogramGUI(master=root)
-app.mainloop()
+def showCamera():
+    camera = CameraGUI(master=root)
+    camera.mainloop()
+
+def showApp():
+    app = HistogramGUI(master=root)
+    app.mainloop()
+
+if __name__ == "__main__":
+    showCamera()
+    showApp()
+
+    print("Application executed.")
