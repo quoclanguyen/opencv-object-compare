@@ -1,0 +1,48 @@
+# import the opencv library 
+import cv2 
+vid = cv2.VideoCapture(1) 
+def capture():
+    # define a video capture object 
+
+    while(True):
+        ret, image = vid.read()
+            # showing result, it take frame name and image   
+        cv2.imshow("sample_image", image)
+        if cv2.waitKey(1) & 0xFF == ord(' '):
+            # saving image in local storage 
+            image_gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+            cv2.imwrite("sample_image.png", image_gray) 
+            cv2.destroyWindow("sample_image") 
+            break
+    vid.release() # release the videocapture object
+    # Destroy all the windows
+    cv2.destroyAllWindows() # destroy all the opened windows
+
+def compare():
+    # read gray scale image
+    image_gray = cv2.imread("sample_image.png", 0)
+    while(True): 
+
+    # Capture the video frame 
+    # by frame 
+        ret, frame = vid.read() 
+        frame_gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
+        #compare image
+        compare = image_gray == frame_gray
+        if compare.all():
+            print("1")
+        else:
+            print("0")
+            # Display the resulting frame 
+        cv2.imshow('frame', frame) 
+            
+            # the 'q' button is set as the 
+            # quitting button you may use any 
+            # desired button of your choice 
+        if (cv2.waitKey(1) & 0xFF) == ord('q'): 
+            break
+
+        # After the loop release the cap object 
+    vid.release() # release the videocapture object
+    # Destroy all the windows
+    cv2.destroyAllWindows() # destroy all the opened windows
