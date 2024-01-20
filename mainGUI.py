@@ -9,7 +9,7 @@ class CameraGUI(tk.Frame):
         self.create_video_capture()
     def create_video_capture(self):
         #create box for video capture 
-        self.vid = video.capture()
+        self.vid = videoHandler.capture()
         self.vid.pack(side="top")
         #create button to capture image
         self.capture = tk.Button(self, text="Capture", command=self.capture)
