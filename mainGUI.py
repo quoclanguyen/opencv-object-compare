@@ -20,12 +20,3 @@ class CameraGUI(tk.Frame):
         #create button to capture image
         self.capture = tk.Button(self, text="Capture", command=self.capture)
         self.capture.pack(side="bottom")
-
-#MAIN
-def showCamera():
-    camera = CameraGUI(master=root)
-    camera.mainloop()
-
-if __name__ == "__main__":
-    showCamera()
-    print("Application executed.")
