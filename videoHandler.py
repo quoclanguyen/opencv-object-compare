@@ -1,5 +1,6 @@
 # import the opencv library 
 import cv2 
+import time
 
 def capture():
     # define a video capture object 
