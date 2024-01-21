@@ -10,15 +10,16 @@ def capture():
         _, image = vid.read()
             # showing result, it take frame name and image   
         cv2.imshow("sample_image", image)
-        if cv2.waitKey(1) & 0xFF == ord(' '):
+        if cv2.waitKey(1):
             # saving image in local storage 
             image_gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+            #save image to path
             cv2.imwrite("sample_image.png", image_gray) 
             cv2.destroyWindow("sample_image") 
             break
     vid.release() # release the videocapture object
     # Destroy all the windows
-    cv2.destroyAllWindows() # destroy all the opened windows
+    cv2.destroyAllWindows() # destrooy all the opened windows
 
 def compare():
     # read gray scale image
@@ -30,21 +31,22 @@ def compare():
     # by frame 
         _, frame = vid.read() 
         frame_gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
+        cv2.imshow('frame', frame)
         #compare image
         compare = image_gray == frame_gray
-        if compare.all():
-            print("1")
+        if (cv2.waitKey(1) & 0xFF) == ord('q'): 
+            break
         else:
-            print("0")
+            if compare.all():
+                print("1")
+            else:
+                print("0")
             # Display the resulting frame 
-        cv2.imshow('frame', frame) 
             
             # the 'q' button is set as the 
             # quitting button you may use any 
             # desired button of your choice 
-        if (cv2.waitKey(1) & 0xFF) == ord('q'): 
-            break
-
+        
         # After the loop release the cap object 
     vid.release() # release the videocapture object
     # Destroy all the windows
