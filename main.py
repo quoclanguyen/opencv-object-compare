@@ -1,7 +1,7 @@
 import cv2 
 
 def capture(image):
-    cv2.imshow("Captured image", image)
+    cv2.imshow("Captured image", image[:,:,2])
     _, _, width, _ = cv2.getWindowImageRect("Captured image")
     cv2.moveWindow("Captured image", width, 0)
     image_gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
