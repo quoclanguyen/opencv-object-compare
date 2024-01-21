@@ -39,16 +39,13 @@ class HistogramGUI(tk.Frame):
     def say_hi(self):
         print("hi there, everyone!")
 #MAIN
-def showCamera():
+def main():
     camera = CameraGUI(master=root)
     camera.mainloop()
 
-def showApp():
     app = HistogramGUI(master=root)
     app.mainloop()
 
 if __name__ == "__main__":
-    showCamera()
-    showApp()
-
+    main() 
     print("Application executed.")
