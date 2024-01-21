@@ -34,7 +34,7 @@ def main():
             break
         if capturedFlag:
             compare(captureImg, image)
-    vid.release()        
+    vid.release()
     cv2.destroyAllWindows()
 
 if __name__=='__main__':
