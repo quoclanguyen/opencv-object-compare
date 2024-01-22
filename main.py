@@ -17,23 +17,29 @@ def compare(captureImg, image):    #image1 is the captured image and image2 is t
     mse_rs = mean_squared_error(captureImg, image)
     print("SSIM: {}, MSE: {}".format(ssim_rs, mse_rs))
 
+def histogram(image):
+    hist = cv2.calcHist([image], [0], None, [256], [0, 256]) # Calculate the histogram of the image
+    plt.plot(hist)
+    plt.show(True)
 
 def main():
     vid = cv2.VideoCapture(1)
     capturedFlag = False
     captureImg = None
-    while True:
+    while True:     # Loop to capture the video
         _, image = vid.read()
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         cv2.imshow("Video Handler", image)
         cv2.moveWindow("Video Handler", 0, 0)
         if (cv2.waitKey(1) & 0xFF) == ord(' '):
             captureImg = capture(image)
-            capturedFlag = True
+            histogram(captureImg)
+            capturedFlag = True    
         elif (cv2.waitKey(1) & 0xFF) == ord('q'):
             break
         if capturedFlag:
             compare(captureImg, image)
+
     vid.release()
     cv2.destroyAllWindows()
 
