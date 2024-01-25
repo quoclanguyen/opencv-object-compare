@@ -48,7 +48,7 @@ if __name__=='__main__':
     top_left_point, bottom_right_point = (-1,-1), (-1,-1)
 
     original_image = cv2.imread("robert.jpg")
-    original_image = cv2.resize( original_image ,(500,500))
+    original_image = cv2.resize(original_image ,(500,500))
     image = original_image.copy()
     cv2.namedWindow('Frame')
     cv2.setMouseCallback('Frame', draw_bounding_box)
