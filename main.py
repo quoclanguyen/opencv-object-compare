@@ -21,23 +21,16 @@ def compare(captureImg, image):    #image1 is the captured image and image2 is t
 
     print("SSIM: {}, MSE: {}".format(ssim_rs, mse_rs))
 
-def gauss(size, stddev, k):
-    ker = np.zeros((size, size))
-    mid = (size - 1)//2
-
-    for i in range(size):
-        for j in range(size):
-            r = np.sqrt((i - mid)**2 + (j - mid)**2)
-            ker[i][j] = k*np.exp((-r**2)/(2*(stddev**2)))
-    ker = ker/np.sum(ker)
-    return ker
+def histogram(image):
+    hist = cv2.calcHist([image], [0], None, [256], [0, 256]) # Calculate the histogram of the image
+    plt.plot(hist)
+    plt.show(True)
 
 def main():
     vid = cv2.VideoCapture(cameraId)
     capturedFlag = False
     captureImg = None
-    gaussKer = gauss(11, 25, 1)
-    while True:
+    while True:     # Loop to capture the video
         _, image = vid.read()
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         image = sp.convolve(image, gaussKer)
@@ -46,12 +39,14 @@ def main():
         cv2.moveWindow("Video Handler", 0, 0)
         if (cv2.waitKey(1) & 0xFF) == ord(' '):
             captureImg = capture(image)
-            capturedFlag = True
+            histogram(captureImg)
+            capturedFlag = True    
         elif (cv2.waitKey(1) & 0xFF) == ord('q'):
             break
         if capturedFlag:
             compare(captureImg, image)
-    vid.release()        
+
+    vid.release()
     cv2.destroyAllWindows()
 
 if __name__=='__main__':
