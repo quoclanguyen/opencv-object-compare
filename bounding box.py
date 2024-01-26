@@ -23,7 +23,6 @@ def grabcut_algorithm(original_image, bounding_box):
 
 def draw_bounding_box(click, x, y, flag_param, parameters):
     global x_pt, y_pt, drawing, top_left_point, bottom_right_point, original_image  
-    drawing = False
     if click == cv2.EVENT_LBUTTONDOWN:
         drawing = True
         x_pt, y_pt = x, y   
@@ -47,7 +46,7 @@ if __name__=='__main__':
     drawing = False
     top_left_point, bottom_right_point = (-1,-1), (-1,-1)
 
-    original_image = cv2.imread("robert.jpg")
+    original_image = cv2.imread("robert.png")
     original_image = cv2.resize(original_image ,(500,500))
     image = original_image.copy()
     cv2.namedWindow('Frame')
@@ -58,5 +57,4 @@ if __name__=='__main__':
         c = cv2.waitKey(1)
         if c == 27:
             break
-
     cv2.destroyAllWindows()
