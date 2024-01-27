@@ -2,9 +2,11 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
+x_pt_cache, y_pt_cache = 0, 0
+x_pt, y_pt = -1, -1
 def grabcut_algorithm(original_image, bounding_box):
 
-    segment = np.zeros(original_image.shape[:2],np.uint8)
+    segment = np.zeros(original_image.shape[:2],np.uint8) 
     
     x,y,width,height = bounding_box
     segment[y:y+height, x:x+width] = 1
@@ -21,25 +23,31 @@ def grabcut_algorithm(original_image, bounding_box):
 
 def draw_bounding_box(click, x, y, flag_param, parameters):
     global x_pt, y_pt, drawing, top_left_point, bottom_right_point, original_image, cached_image, image
+    global x_pt_cache, y_pt_cache
     if click == cv2.EVENT_LBUTTONDOWN: # Left button click
         drawing = True
         x_pt, y_pt = x, y 
-
     elif click == cv2.EVENT_MOUSEMOVE:
         if drawing:
+            if x_pt_cache > x or y_pt_cache > y: #check the previous point is greater than the current point
+                image = cached_image.copy()     #if yes, then delete the bounding box
             top_left_point, bottom_right_point = (x_pt,y_pt), (x,y)
-            image[y_pt:y, x_pt:x] = 255 - original_image[y_pt:y, x_pt:x] 
+            x_pt_cache, y_pt_cache = bottom_right_point         # Cache the bottom right point
+            image = cached_image.copy()
             cv2.rectangle(image, top_left_point, bottom_right_point, (0,255,0), 2) # Draw rectangle on the image
 
     elif click == cv2.EVENT_LBUTTONUP:
         drawing = False
         top_left_point, bottom_right_point = (x_pt,y_pt), (x,y)
-        image[y_pt:y, x_pt:x] = 255 - image[y_pt:y, x_pt:x]
         cv2.rectangle(image, top_left_point, bottom_right_point, (0,255,0), 2)
+        if top_left_point[0] > bottom_right_point[0]:   #check every way to draw the bounding box
+                x_pt, x = x, x_pt
+        if top_left_point[1] > bottom_right_point[1]:
+                y_pt, y = y, y_pt
         bounding_box = (x_pt, y_pt, x-x_pt, y-y_pt) 
         grabcut_algorithm(original_image, bounding_box)
     #delete the bounding box
-        image = cached_image.copy() # Make a copy of original image to draw bounding box
+        image = cached_image.copy()
     
 if __name__=='__main__':
     drawing = False
