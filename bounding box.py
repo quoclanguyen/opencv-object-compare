@@ -6,19 +6,19 @@ x_pt_cache, y_pt_cache = 0, 0
 x_pt, y_pt = -1, -1
 def grabcut_algorithm(original_image, bounding_box):
 
-    segment = np.zeros(original_image.shape[:2],np.uint8) 
+    segment = np.zeros(original_image.shape[:2],np.uint8)  # Create a mask image of size (w,h)
     
-    x,y,width,height = bounding_box
-    segment[y:y+height, x:x+width] = 1
+    x,y,width,height = bounding_box # Create a rectangle of same size with full of zeros
+    segment[y:y+height, x:x+width] = 1  # Make the region of interest in a mask image with 1
 
-    background_mdl = np.zeros((1,65), np.float64)
-    foreground_mdl = np.zeros((1,65), np.float64)
+    background_mdl = np.zeros((1,65), np.float64)   # Create a array of size (1,65) with zeros
+    foreground_mdl = np.zeros((1,65), np.float64)   # Create a array of size (1,65) with zeros
     
-    cv2.grabCut(original_image, segment, bounding_box, background_mdl, foreground_mdl, 5,
-    cv2.GC_INIT_WITH_RECT)
+    cv2.grabCut(original_image, segment, bounding_box, background_mdl, foreground_mdl, 5,   
+    cv2.GC_INIT_WITH_RECT)  # Apply grabcut algorithm with rectangle method
 
-    new_mask = np.where((segment==2)|(segment==0),0,1).astype('uint8')
-    original_image = original_image*new_mask[:,:,np.newaxis]
+    new_mask = np.where((segment==2)|(segment==0),0,1).astype('uint8')  # Create a mask image with 0 and 1
+    original_image = original_image*new_mask[:,:,np.newaxis]    # Apply the mask image on the original image
     cv2.imshow('Result', original_image)
 
 def draw_bounding_box(click, x, y, flag_param, parameters):
