@@ -24,7 +24,8 @@ def compare(captureImg, image):    #image1 is the captured image and image2 is t
 def histogram(image):
     hist = cv2.calcHist([image], [0], None, [256], [0, 256]) # Calculate the histogram of the image
     plt.plot(hist)
-    plt.show(True)
+    plt.xlim((0, 255))
+    plt.show()
 
 def main():
     vid = cv2.VideoCapture(cameraId)
@@ -33,7 +34,7 @@ def main():
     while True:     # Loop to capture the video
         _, image = vid.read()
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        image = sp.convolve(image, gaussKer)
+#        image = sp.convolve(image, gaussKer)
         image = np.array(image, dtype = 'uint8')
         cv2.imshow("Video Handler", image)
         cv2.moveWindow("Video Handler", 0, 0)
